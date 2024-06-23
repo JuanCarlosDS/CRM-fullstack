@@ -29,6 +29,12 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   provider?: string;
 
   socialId?: string | null;
+  
+  description?: string | null;
+
+  phone?: string | null;
+
+  timeZone?: string | null;
 
   @ApiProperty({ example: 'John' })
   @IsOptional()

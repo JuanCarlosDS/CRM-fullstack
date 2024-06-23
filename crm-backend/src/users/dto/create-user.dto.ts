@@ -32,6 +32,12 @@ export class CreateUserDto {
 
   socialId?: string | null;
 
+  description?: string | null;
+
+  phone?: string | null;
+
+  timeZone?: string | null;
+
   @ApiProperty({ example: 'John' })
   @IsNotEmpty()
   firstName: string | null;

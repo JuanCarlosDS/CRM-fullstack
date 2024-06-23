@@ -8,6 +8,7 @@ export type AppConfig = {
   apiPrefix: string;
   fallbackLanguage: string;
   headerLanguage: string;
+  s3_bucket?: string;
 };
 
 export type AppleConfig = {
