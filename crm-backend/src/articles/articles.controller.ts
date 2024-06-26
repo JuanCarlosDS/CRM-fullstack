@@ -16,6 +16,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../roles/roles.decorator';
 import { RoleEnum } from '../roles/roles.enum';
 import { RolesGuard } from '../roles/roles.guard';
+import { CurrentUser } from 'src/decorators/user/current-user.decorator';
+import { User } from 'src/users/entities/user.entity';
 
 @Controller({
   path: 'articles',
@@ -30,8 +32,8 @@ export class ArticlesController {
   @Post()
   @Roles(RoleEnum.admin, RoleEnum.user)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  create(@Body() createArticleDto: CreateArticleDto, @CurrentUser() user: User) {
+    return this.articlesService.create(createArticleDto, user);
   }
 
   @Get()

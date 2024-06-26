@@ -1,4 +1,5 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 
 export class CreateArticleDto {
   @IsNotEmpty()
@@ -6,4 +7,9 @@ export class CreateArticleDto {
 
   @IsNotEmpty()
   content: string;
+
+  @IsBoolean()
+  published: boolean;
+
+  author: User;
 }

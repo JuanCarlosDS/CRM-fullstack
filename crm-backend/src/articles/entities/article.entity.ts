@@ -16,7 +16,7 @@ export class Article {
   @Column()
   title: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   published?: boolean;
 
   @CreateDateColumn()
