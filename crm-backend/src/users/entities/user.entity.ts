@@ -21,6 +21,7 @@ import { AuthProvidersEnum } from 'src/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
 import { Article } from '../../articles/entities/article.entity';
 import { Task } from 'src/tasks/entities/task.entity';
+import { Product } from 'src/products/entities/product.entity';
 
 @Entity()
 export class User extends EntityHelper {
@@ -120,4 +121,7 @@ export class User extends EntityHelper {
 
   @OneToMany(() => Task, (task) => task.assignee)
   assignedTasks?: Task[];
+
+  @OneToMany(() => Product, (product) => product.user)
+  products?: Product[];
 }
