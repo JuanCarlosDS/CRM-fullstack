@@ -30,6 +30,7 @@ import { SessionModule } from './session/session.module';
 import { MailerModule } from './mailer/mailer.module';
 import { ArticlesModule } from './articles/articles.module';
 import { TasksModule } from './tasks/tasks.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -91,6 +92,7 @@ import { TasksModule } from './tasks/tasks.module';
     HomeModule,
     ArticlesModule,
     TasksModule,
+    ProductsModule,
   ],
 })
 export class AppModule {}
