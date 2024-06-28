@@ -46,15 +46,19 @@ export class ProductsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.productsService.findOne({ id: +id });
   }
 
   @Patch(':id')
+  @Roles(RoleEnum.admin, RoleEnum.user)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productsService.update(+id, updateProductDto);
   }
 
   @Delete(':id')
+  @Roles(RoleEnum.admin, RoleEnum.user)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
   }
