@@ -5,7 +5,7 @@ import { Transform } from 'class-transformer';
 import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transformer';
 
 export class AuthRegisterLoginDto {
-  @ApiProperty({ example: 'test1@example.com' })
+  @ApiProperty({ example: 'admin@example.com' })
   @Transform(lowerCaseTransformer)
   @Validate(IsNotExist, ['User'], {
     message: 'emailAlreadyExists',
@@ -15,6 +15,7 @@ export class AuthRegisterLoginDto {
 
   @ApiProperty()
   @MinLength(6)
+  @ApiProperty({ example: 'secret' })
   password: string;
 
   @ApiProperty({ example: 'John' })
