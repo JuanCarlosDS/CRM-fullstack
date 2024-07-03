@@ -28,6 +28,7 @@ export class TasksController {
 
   @Post()
   create(@Body() createTaskDto: CreateTaskDto, @CurrentUser() user: User) {
+    console.log('user :>> ', user);
     return this.tasksService.create(createTaskDto, user);
   }
 

@@ -31,6 +31,8 @@ import { MailerModule } from './mailer/mailer.module';
 import { ArticlesModule } from './articles/articles.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ProductsModule } from './products/products.module';
+import { BookingsModule } from './bookings/bookings.module';
+import { OrganizationsModule } from './organizations/organizations.module';
 
 @Module({
   imports: [
@@ -93,6 +95,8 @@ import { ProductsModule } from './products/products.module';
     ArticlesModule,
     TasksModule,
     ProductsModule,
+    BookingsModule,
+    OrganizationsModule,
   ],
 })
 export class AppModule {}

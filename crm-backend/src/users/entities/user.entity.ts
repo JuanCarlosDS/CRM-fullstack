@@ -22,6 +22,8 @@ import { Exclude, Expose } from 'class-transformer';
 import { Article } from '../../articles/entities/article.entity';
 import { Task } from 'src/tasks/entities/task.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { Booking } from 'src/bookings/entities/booking.entity';
+import { Organization } from 'src/organizations/entities/organization.entity';
 
 @Entity()
 export class User extends EntityHelper {
@@ -124,4 +126,13 @@ export class User extends EntityHelper {
 
   @OneToMany(() => Product, (product) => product.user)
   products?: Product[];
+
+  @OneToMany(() => Booking, (booking) => booking.user)
+  bookings?: Booking[];
+
+  @OneToMany(() => Booking, (booking) => booking.assignee)
+  assignedBookings: Booking[];
+
+  @ManyToOne(() => Organization, organization => organization.users)
+  organization: Organization;
 }

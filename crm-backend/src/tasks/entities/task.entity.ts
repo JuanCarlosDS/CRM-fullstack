@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { Organization } from 'src/organizations/entities/organization.entity';
 
 @Entity()
 export class Task extends EntityHelper {
@@ -31,4 +32,7 @@ export class Task extends EntityHelper {
 
   @ManyToOne(() => User, (user) => user.tasks)
   assignee: User;
+
+  @ManyToOne(() => Organization, organization => organization.tasks)
+  organization: Organization;
 }
