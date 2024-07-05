@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty, Validate } from 'class-validator';
+import { Organization } from 'src/organizations/entities/organization.entity';
 import { User } from 'src/users/entities/user.entity';
+import { IsExist } from 'src/utils/validators/is-exists.validator';
 
 export class CreateArticleDto {
   @ApiProperty({ example: 'Article Title' })
@@ -17,4 +19,14 @@ export class CreateArticleDto {
   published: boolean;
 
   author: User;
+
+  @ApiProperty({ example: {
+    "id": 1
+    }
+  })
+  @IsNotEmpty()
+  @Validate(IsExist, ['Organization', 'id'], {
+    message: 'Organization not exists',
+  })
+  organization: Organization;
 }

@@ -6,6 +6,7 @@ import { Article } from './entities/article.entity';
 import { EntityCondition } from '../utils/types/entity-condition.type';
 import { NullableType } from '../utils/types/nullable.type';
 import { User } from 'src/users/entities/user.entity';
+import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 @Injectable()
 export class ArticlesService {
@@ -15,6 +16,7 @@ export class ArticlesService {
   ) {}
   create(createArticleDto: CreateArticleDto, user: User): Promise<Article> {
     createArticleDto.author = user.id as any;
+    console.log('createArticleDto :>> ', createArticleDto);
     const newArticle = this.articlesRepository.save(
       this.articlesRepository.create(createArticleDto),
     );
@@ -24,6 +26,20 @@ export class ArticlesService {
 
   findAll() {
     return this.articlesRepository.find();
+  }
+
+  findManyWithPagination(
+    paginationOptions: IPaginationOptions,
+  ): Promise<Article[]> {
+    return this.articlesRepository.find({
+      skip: paginationOptions.offset,
+      take: paginationOptions.limit,
+    });
+  }
+
+
+  standardCount(): Promise<number> {
+    return this.articlesRepository.count();
   }
 
   findOne(fields: EntityCondition<Article>): Promise<NullableType<Article>> {

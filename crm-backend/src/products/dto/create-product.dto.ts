@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Validate } from 'class-validator';
+import { Organization } from 'src/organizations/entities/organization.entity';
 import { User } from 'src/users/entities/user.entity';
+import { IsExist } from 'src/utils/validators/is-exists.validator';
 
 export class CreateProductDto {
   @ApiProperty({ example: 'Product Title' })
@@ -27,4 +29,14 @@ export class CreateProductDto {
   // @IsNotEmpty()
   // @IsNumber()
   // categoryId: number;
+
+  @ApiProperty({ example: {
+    "id": 1
+    }
+  })
+  @IsNotEmpty()
+  @Validate(IsExist, ['Organization', 'id'], {
+    message: 'Organization not exists',
+  })
+  organization: Organization;
 }

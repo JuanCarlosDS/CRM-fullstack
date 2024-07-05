@@ -27,7 +27,9 @@ export class OrganizationsService {
   }
 
   findOne(fields: EntityCondition<Organization>): Promise<NullableType<Organization>> {
-    return this.organizationsRepository.findOne({ where: fields });
+    return this.organizationsRepository.findOne({ where: fields, 
+      relations: ['users', 'articles', 'tasks', 'products', 'bookings' ] 
+    });
   }
 
 

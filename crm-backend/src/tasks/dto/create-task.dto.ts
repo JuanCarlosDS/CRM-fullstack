@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsOptional, Validate } from 'class-validator';
+import { Organization } from 'src/organizations/entities/organization.entity';
+import { IsExist } from 'src/utils/validators/is-exists.validator';
 
 export class CreateTaskDto {
     @ApiProperty({ example: 'Task Title' })
@@ -26,4 +28,14 @@ export class CreateTaskDto {
     @IsOptional()
     @IsDateString()
     dueDate?: Date;
+
+    @ApiProperty({ example: {
+        "id": 1
+        }
+    })
+    @IsNotEmpty()
+    @Validate(IsExist, ['Organization', 'id'], {
+    message: 'Organization not exists',
+    })
+    organization: Organization;
 }

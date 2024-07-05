@@ -13,6 +13,7 @@ import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
 import { FileEntity } from 'src/files/entities/file.entity';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
 import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transformer';
+import { Organization } from 'src/organizations/entities/organization.entity';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'test1@example.com' })
@@ -64,6 +65,16 @@ export class CreateUserDto {
     message: 'statusNotExists',
   })
   status?: Status;
+
+  @ApiProperty({ example: {
+    "id": 1
+      }
+  })
+  @IsNotEmpty()
+  @Validate(IsExist, ['Organization', 'id'], {
+  message: 'Organization not exists',
+  })
+  organization: Pick<Organization, 'id'>;
 
   hash?: string | null;
 }

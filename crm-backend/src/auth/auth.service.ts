@@ -147,6 +147,8 @@ export class AuthService {
           provider: authProvider,
           role,
           status,
+          // TODO organization from socialmake it dynamic
+          organization: { id: 1} ,
         },
         false,
       );
@@ -207,6 +209,7 @@ export class AuthService {
           id: StatusEnum.inactive,
         } as Status,
         hash,
+        organization: { id: 1 },
       },
       false,
     );

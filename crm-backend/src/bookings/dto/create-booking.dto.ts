@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsOptional, Validate } from 'class-validator';
+import { Organization } from 'src/organizations/entities/organization.entity';
 import { User } from 'src/users/entities/user.entity';
+import { IsExist } from 'src/utils/validators/is-exists.validator';
 
 export class CreateBookingDto {
     @ApiProperty({ example: '2024-08-10T11:00:00Z' })
@@ -45,4 +47,14 @@ export class CreateBookingDto {
         } 
     })
     user: User;
+
+    @ApiProperty({ example: {
+      "id": 1
+      }
+    })
+    @IsNotEmpty()
+    @Validate(IsExist, ['Organization', 'id'], {
+      message: 'Organization not exists',
+    })
+    organization: Organization;
 }
