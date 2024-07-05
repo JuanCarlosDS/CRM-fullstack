@@ -19,7 +19,6 @@ export class BookingsController {
 
   @Post()
   create(@Body() createBookingDto: CreateBookingDto, @CurrentUser() user: User) {
-    console.log('user :>> ', user);
     return this.bookingsService.create(createBookingDto, user);
   }
 

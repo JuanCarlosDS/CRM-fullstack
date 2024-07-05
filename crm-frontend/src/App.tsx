@@ -42,7 +42,8 @@ import nestjsxCrudDataProviderCustom from "./providers/nestjsx-crud";
 import {UpdatePasswordPage} from "./pages/updatePassword/updatePassword";
 import HeaderLogo from "./components/HeaderLogo";
 import {API_URL} from "./constants";
-import { TaskCreate, TasksEdit, TasksList, TasksShow } from "./pages/tasks";
+import { TasksCreate, TasksEdit, TasksList, TasksShow } from "./pages/tasks";
+import { ProductCreate, ProductEdit, ProductList, ProductsShow } from "./pages/products";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -56,7 +57,7 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
+    (<BrowserRouter>
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <Refine
@@ -90,8 +91,17 @@ function App() {
                 list: "/tasks",
                 create: "/tasks/create",
                 edit: "/tasks/edit/:id",
-                show: "/tasks/show/:id"
-,                meta: {
+                show: "/tasks/show/:id",                
+                meta: {
+                  canDelete: true,
+              },
+              }, {
+                name: "products",
+                list: "/products",
+                create: "/products/create",
+                edit: "/products/edit/:id",
+                show: "/products/show/:id",
+                meta: {
                   canDelete: true,
               },
               }]}
@@ -104,7 +114,7 @@ function App() {
             <Routes>
               <Route
                   element={
-                    <Authenticated fallback={<CatchAllNavigate to="/login" />}>
+                    <Authenticated key="dashboard" fallback={<CatchAllNavigate to="/login" />}>
                       <ThemedLayoutV2
                           Title={({ collapsed }) => (
                               <ThemedTitleV2
@@ -141,15 +151,22 @@ function App() {
                 </Route>
                 <Route path="/tasks">
                   <Route index element={<TasksList />} />
-                  <Route path="create" element={<TaskCreate />} />
+                  <Route path="create" element={<TasksCreate />} />
                   <Route path="edit/:id" element={<TasksEdit />} />
                   <Route path="show/:id" element={<TasksShow />} />
+                </Route>
+                <Route path="/products">
+                  <Route index element={<ProductList />} />
+                  <Route path="create" element={<ProductCreate />} />
+                  <Route path="edit/:id" element={<ProductEdit />} />
+                  <Route path="show/:id" element={<ProductsShow />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
               <Route
                   element={
-                    <Authenticated fallback={<Outlet />}>
+                    // TODO Do research why the key is needed
+                    <Authenticated key="dashboard" fallback={<Outlet />}>
                       <NavigateToResource />
                     </Authenticated>
                   }
@@ -168,7 +185,7 @@ function App() {
           </Refine>
         </ColorModeContextProvider>
       </RefineKbarProvider>
-    </BrowserRouter>
+    </BrowserRouter>)
   );
 }
 

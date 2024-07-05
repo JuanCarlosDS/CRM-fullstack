@@ -4,6 +4,8 @@ import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import { Organization } from './entities/organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { NullableType } from 'src/utils/types/nullable.type';
+import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 @Injectable()
 export class OrganizationsService {
@@ -13,22 +15,32 @@ export class OrganizationsService {
   ) {}
 
   create(createOrganizationDto: CreateOrganizationDto) {
-    return 'This action adds a new organization';
+    const newOrganization = this.organizationsRepository.save(
+      this.organizationsRepository.create(createOrganizationDto),
+      );
+      
+    return newOrganization;
   }
 
   findAll() {
-    return `This action returns all organizations`;
+    return this.organizationsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} organization`;
+  findOne(fields: EntityCondition<Organization>): Promise<NullableType<Organization>> {
+    return this.organizationsRepository.findOne({ where: fields });
   }
 
-  update(id: number, updateOrganizationDto: UpdateOrganizationDto) {
-    return `This action updates a #${id} organization`;
+
+  update(id: Organization['id'], payload: UpdateOrganizationDto): Promise<Organization> {
+    return this.organizationsRepository.save(
+      this.organizationsRepository.create({
+        id,
+        ...payload,
+      }),
+    );
   }
 
   remove(id: number) {
-    return `This action removes a #${id} organization`;
+    return this.organizationsRepository.delete(id);
   }
 }

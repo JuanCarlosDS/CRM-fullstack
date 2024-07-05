@@ -28,4 +28,8 @@ p, 3, articles, (list)|(show)
 p, 1, tasks, (list)|(create)|(edit)|(show)|(delete)
 
 p, 2, tasks, (list)|(create)|(edit)|(show)|(delete)
+
+p, 1, products, (list)|(create)|(edit)|(show)|(delete)
+
+p, 2, products, (list)|(create)|(edit)|(show)|(delete)
 `);

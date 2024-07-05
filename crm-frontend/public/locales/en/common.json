@@ -169,6 +169,23 @@
       "show": "Show task"
     }
   },
+  "products": {
+    "products": "Products",
+    "fields": {
+      "id": "ID",
+      "title": "Title",
+      "description": "Description",
+      "price": "Price",
+      "createdAt": "Created at",
+      "updatedAt": "Updated at"
+    },
+    "titles": {
+      "create": "Create product",
+      "edit": "Edit product",
+      "list": "Products",
+      "show": "Show product"
+    }
+  },
   "documentTitle": {
     "default": "Poliath Manager",
     "suffix": " | Poliath Manager",
