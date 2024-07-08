@@ -7,6 +7,8 @@ import { EntityCondition } from '../utils/types/entity-condition.type';
 import { NullableType } from '../utils/types/nullable.type';
 import { User } from 'src/users/entities/user.entity';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
+import { validateAndConvertOrgId } from 'src/utils/transformers/organizationId';
+import { Organization } from 'src/organizations/entities/organization.entity';
 
 @Injectable()
 export class ArticlesService {
@@ -14,9 +16,12 @@ export class ArticlesService {
     @InjectRepository(Article)
     private articlesRepository: Repository<Article>,
   ) {}
-  create(createArticleDto: CreateArticleDto, user: User): Promise<Article> {
+  create(createArticleDto: CreateArticleDto, user: User,  organizationId: string): Promise<Article> {
+    const organizationIdNumber = validateAndConvertOrgId(organizationId);
+
     createArticleDto.author = user.id as any;
-    console.log('createArticleDto :>> ', createArticleDto);
+    createArticleDto.organization = { id: organizationIdNumber } as Organization;
+    
     const newArticle = this.articlesRepository.save(
       this.articlesRepository.create(createArticleDto),
     );

@@ -6,6 +6,8 @@ import { Booking } from './entities/booking.entity';
 import { User } from 'src/users/entities/user.entity';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { NullableType } from 'src/utils/types/nullable.type';
+import { validateAndConvertOrgId } from 'src/utils/transformers/organizationId';
+import { Organization } from 'src/organizations/entities/organization.entity';
 
 @Injectable()
 export class BookingsService {
@@ -14,9 +16,13 @@ export class BookingsService {
     private bookingRepository: Repository<Booking>,
   ) {}
 
-  create(createBookingDto: CreateBookingDto, user: User) {
+  create(createBookingDto: CreateBookingDto, user: User, organizationId: string) {
+
+    const organizationIdNumber = validateAndConvertOrgId(organizationId);
+
     createBookingDto.user = user;
-    console.log('createBookingDto :>> ', createBookingDto);
+    createBookingDto.organization = { id: organizationIdNumber } as Organization;
+
     const newBooking = this.bookingRepository.save(
       this.bookingRepository.create(createBookingDto),
       );

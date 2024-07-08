@@ -51,6 +51,7 @@ export const authProvider: AuthBindings = {
       const data = await response.json();
 
       if (data.token) {
+        localStorage.setItem('organization', data.organization ? data.organization?.id : 1 );
         localStorage.setItem(TOKEN_KEY, data.token);
         localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
         localStorage.setItem(TOKEN_EXPIRES_AT_KEY, data.tokenExpires);
@@ -83,6 +84,7 @@ export const authProvider: AuthBindings = {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(TOKEN_EXPIRES_AT_KEY);
+    localStorage.removeItem('organization')
     return {
       success: true,
       redirectTo: "/login",

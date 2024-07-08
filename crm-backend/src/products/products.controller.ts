@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -35,8 +36,10 @@ export class ProductsController {
   create(
     @Body() createProductDto: CreateProductDto,
     @CurrentUser() user: User,
+    @Req() req: Request,
   ) {
-    return this.productsService.create(createProductDto, user);
+    const organizationId = req['organizationId'];
+    return this.productsService.create(createProductDto, user, organizationId);
   }
 
   @Get()

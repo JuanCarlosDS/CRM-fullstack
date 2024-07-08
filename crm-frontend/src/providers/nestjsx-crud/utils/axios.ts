@@ -30,7 +30,7 @@ axiosInstance.interceptors.request.use(async (request: AxiosRequestConfig) => {
             localStorage.removeItem(TOKEN_EXPIRES_AT_KEY);
         }
     }
-
+    console.log('request :>> ', request);
     // Retrieve the token from local storage
     const token = localStorage.getItem(TOKEN_KEY);
     // Check if the header property exists
@@ -42,6 +42,12 @@ axiosInstance.interceptors.request.use(async (request: AxiosRequestConfig) => {
         request.headers = {
             Authorization: `Bearer ${token}`,
         };
+    }
+
+    // Set the organization header
+    const organizationId = localStorage.getItem('organization'); 
+    if (organizationId) {
+        request.headers['X-Organization-Id'] = organizationId;
     }
 
     return request;

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
@@ -33,6 +33,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { ProductsModule } from './products/products.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { OrganizationsModule } from './organizations/organizations.module';
+import { OrganizationMiddleware } from './middleware/middleware';
 
 @Module({
   imports: [
@@ -99,4 +100,10 @@ import { OrganizationsModule } from './organizations/organizations.module';
     OrganizationsModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(OrganizationMiddleware)
+      .forRoutes('*'); // apply to all routes
+  }
+}

@@ -20,11 +20,6 @@ export class CreateArticleDto {
 
   author: User;
 
-  @ApiProperty({ example: {
-    "id": 1
-    }
-  })
-  @IsNotEmpty()
   @Validate(IsExist, ['Organization', 'id'], {
     message: 'Organization not exists',
   })

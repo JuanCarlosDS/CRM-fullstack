@@ -13,6 +13,7 @@ import {
   HttpStatus,
   HttpCode,
   SerializeOptions,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -43,8 +44,10 @@ export class UsersController {
   })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createProfileDto: CreateUserDto): Promise<User> {
-    return this.usersService.create(createProfileDto, true);
+  create(@Body() createProfileDto: CreateUserDto, @Req() req: Request): Promise<User> {
+    const organizationId = req['organizationId'];
+    
+    return this.usersService.create(createProfileDto, true, organizationId);
   }
 
   @SerializeOptions({

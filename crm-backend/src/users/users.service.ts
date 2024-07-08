@@ -7,6 +7,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { NullableType } from '../utils/types/nullable.type';
 import { MailService } from '../mail/mail.service';
+import { validateAndConvertOrgId } from 'src/utils/transformers/organizationId';
+import { Organization } from 'src/organizations/entities/organization.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +21,11 @@ export class UsersService {
   async create(
     createProfileDto: CreateUserDto,
     isAdmin: boolean,
+    organizationId: string
   ): Promise<User> {
+    const organizationIdNumber = validateAndConvertOrgId(organizationId);
+    createProfileDto.organization = { id: organizationIdNumber } as Organization;
+
     const newUser = this.usersRepository.save(
       this.usersRepository.create(createProfileDto),
     );

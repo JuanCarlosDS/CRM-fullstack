@@ -31,6 +31,7 @@ import { SessionService } from 'src/session/session.service';
 import { JwtRefreshPayloadType } from './strategies/types/jwt-refresh-payload.type';
 import { Session } from 'src/session/entities/session.entity';
 import { JwtPayloadType } from './strategies/types/jwt-payload.type';
+import { Organization } from 'src/organizations/entities/organization.entity';
 
 @Injectable()
 export class AuthService {
@@ -137,7 +138,7 @@ export class AuthService {
       const status = plainToClass(Status, {
         id: StatusEnum.active,
       });
-
+      
       user = await this.usersService.create(
         {
           email: socialEmail ?? null,
@@ -151,6 +152,7 @@ export class AuthService {
           organization: { id: 1} ,
         },
         false,
+        '1'
       );
 
       user = await this.usersService.findOne({
@@ -192,11 +194,13 @@ export class AuthService {
     };
   }
 
-  async register(dto: AuthRegisterLoginDto): Promise<void> {
+  async register(dto: AuthRegisterLoginDto, organizationId): Promise<void> {
     const hash = crypto
       .createHash('sha256')
       .update(randomStringGenerator())
       .digest('hex');
+
+    dto.organization = { id: organizationId } as Organization;
 
     await this.usersService.create(
       {
@@ -208,10 +212,10 @@ export class AuthService {
         status: {
           id: StatusEnum.inactive,
         } as Status,
-        hash,
-        organization: { id: 1 },
+        hash
       },
       false,
+      organizationId
     );
 
     await this.mailService.userSignUp({

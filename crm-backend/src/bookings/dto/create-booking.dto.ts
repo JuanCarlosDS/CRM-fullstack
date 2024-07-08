@@ -52,7 +52,6 @@ export class CreateBookingDto {
       "id": 1
       }
     })
-    @IsNotEmpty()
     @Validate(IsExist, ['Organization', 'id'], {
       message: 'Organization not exists',
     })

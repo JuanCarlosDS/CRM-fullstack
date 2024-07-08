@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
@@ -18,8 +18,12 @@ export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 
   @Post()
-  create(@Body() createBookingDto: CreateBookingDto, @CurrentUser() user: User) {
-    return this.bookingsService.create(createBookingDto, user);
+  create(@Body() createBookingDto: CreateBookingDto, 
+  @CurrentUser() user: User,
+  @Req() req: Request,
+  ) {
+    const organizationId = req['organizationId'];
+    return this.bookingsService.create(createBookingDto, user, organizationId);
   }
 
   @Get()

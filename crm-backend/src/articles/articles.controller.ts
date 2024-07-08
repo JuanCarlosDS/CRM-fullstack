@@ -12,6 +12,7 @@ import {
   Query,
   HttpStatus,
   HttpCode,
+  Req,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -40,8 +41,12 @@ export class ArticlesController {
   @Post()
   @Roles(RoleEnum.admin, RoleEnum.user)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  create(@Body() createArticleDto: CreateArticleDto, @CurrentUser() user: User) {
-    return this.articlesService.create(createArticleDto, user);
+  create(@Body() createArticleDto: CreateArticleDto, 
+  @CurrentUser() user: User,
+  @Req() req: Request
+  ) {
+    const organizationId = req['organizationId'];
+    return this.articlesService.create(createArticleDto, user, organizationId);
   }
 
   @Get()

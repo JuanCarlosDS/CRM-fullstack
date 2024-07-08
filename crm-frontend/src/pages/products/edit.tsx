@@ -1,6 +1,6 @@
 import React from "react";
 import { Edit, useForm } from "@refinedev/antd";
-import { Form, Input, DatePicker } from "antd";
+import { Form, Input, DatePicker, InputNumber } from "antd";
 import { useTranslate } from "@refinedev/core";
 import dayjs from "dayjs";
 
@@ -55,7 +55,7 @@ export const ProductEdit = () => {
                         },
                     ]}
                 >
-                    <Input />
+                    <InputNumber min={0} />
                 </Form.Item>
                 <Form.Item
                     label={translate("products.fields.createdAt")}

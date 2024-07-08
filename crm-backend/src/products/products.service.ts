@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 // import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,8 @@ import { DeepPartial, Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { NullableType } from 'src/utils/types/nullable.type';
+import { Organization } from 'src/organizations/entities/organization.entity';
+import { validateAndConvertOrgId } from 'src/utils/transformers/organizationId';
 
 @Injectable()
 export class ProductsService {
@@ -15,8 +17,12 @@ export class ProductsService {
     private productsRepository: Repository<Product>,
   ) {}
 
-  create(createProductDto: CreateProductDto, user: User): Promise<Product> {
+  create(createProductDto: CreateProductDto, user: User, organizationId: string): Promise<Product> {
+    const organizationIdNumber = validateAndConvertOrgId(organizationId);
+
     createProductDto.user = user;
+    createProductDto.organization = { id: organizationIdNumber } as Organization;
+    
     const newProduct = this.productsRepository.save(
       this.productsRepository.create(createProductDto),
     );

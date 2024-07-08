@@ -1,15 +1,11 @@
 import React from "react";
-import { IResourceComponentsProps, useList, useTranslate } from "@refinedev/core";
+import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { Create, useForm } from "@refinedev/antd";
 import { Form, Input, Checkbox } from "antd";
-import { IUser } from "../../interfaces/user.interface";
 
 export const TasksCreate: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
-    const { data: data, isLoading } = useList<IUser>({
-        resource: 'tasks'
-    });
-    console.log('data :>> ', data);
+
     const { formProps, saveButtonProps } = useForm();
 
     return (
